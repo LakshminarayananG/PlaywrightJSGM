@@ -88,3 +88,127 @@ test(' @Web Verify broken image', async ({ page }) => {
   const validImage = await page.locator("//p[text()='Valid image']/following-sibling::img").first().boundingBox();
   console.log("Height of valid image is: " + validImage['height'])
 });
+
+
+test('@Web TC03 - Verify user can submit the form.', async ({ page }) => {
+
+  // Go to the URL
+  await page.goto('https://demoqa.com/');
+
+  // Navigate to "Forms" >> "Practice Form"
+  await page.click('text=Forms');
+  await page.click("//span[text()='Practice Form']");
+  //await page.waitForLoadState('networkidle');
+
+  // Fill out the form
+  await page.fill('#firstName', 'Gerimedica');
+  await page.fill('#lastName', 'BV');
+  await page.fill('#userEmail', 'test@test.com');
+  await page.evaluate('document.getElementById("gender-radio-1").checked=true;');
+
+  await page.fill('#userNumber', '0123456789');
+  await page.fill('#dateOfBirthInput', '1990-01-15');
+  await page.keyboard.press('Enter');
+
+
+  await page.evaluate('document.getElementById("hobbies-checkbox-2").checked=true;');
+  await page.setInputFiles('#uploadPicture', ['./GM.jpg']);
+  await page.fill('#currentAddress', 'Netherlands');
+  await page.keyboard.press('Tab');
+  await page.keyboard.press('ArrowDown');
+  await page.keyboard.press('Enter');
+
+  await page.keyboard.press('Tab');
+  await page.keyboard.press('ArrowDown');
+  await page.keyboard.press('Enter');
+
+  // Submit the form
+  await page.keyboard.press('Enter');
+
+
+  // Assert that the form was submitted successfully and validate the mobile number in confirmation page
+  expect(await page.textContent('#example-modal-sizes-title-lg')).toContain('Thanks for submitting the form');
+  expect(await page.textContent("//td[text()='Mobile']/following-sibling::td")).toEqual("0123456789")
+  expect(await page.textContent("//td[text()='Student Name']/following-sibling::td")).toEqual("Gerimedica BV")
+
+
+});
+
+
+test('@Web Verify the progress bar', async ({ page }) => {
+  // Go to the URL
+  await page.goto('https://demoqa.com/');
+
+  // Navigate to "Widget" >> "Progress Bar"
+  await page.click('text=Widget');
+  await page.click("//span[text()='Progress Bar']");
+
+  // Click on "Start"
+  await page.click('#startStopButton');
+
+  // Wait for the progress bar to reach 100%
+  await page.waitForFunction(() => {
+    const progressBar = document.querySelector('.progress-bar');
+    return progressBar.style.width === '100%';
+  });
+
+  // Assert that the progress bar reached 100% and button text has now changed to Reset
+  expect(await page.textContent("//div[@id='progressBarContainer']//button[@type='button']")).toEqual("Reset");
+
+});
+
+
+test('@Web Verify the ToolTip', async ({ page }) => {
+  // Go to the URL
+  await page.goto('https://demoqa.com/');
+
+  // Navigate to "Widget" >> "Tool Tip"
+  await page.click('text=Widget');
+  await page.click("//span[text()='Tool Tips']");
+
+  // Locate and hover over the button to trigger the tooltip
+  const button = await page.locator('button#toolTipButton');
+  await button.hover();
+
+  // Wait for the tooltip to appear
+  await page.waitForSelector('div.tooltip-inner');
+
+  // Get the tooltip text
+  const tooltipText = await page.textContent('div.tooltip-inner');
+
+  // Assertions
+  expect(tooltipText).toBe('You hovered over the Button');
+
+
+});
+
+
+test('@Web Verify the Drag & Drop Functionality', async ({ page }) => {
+  // Go to the URL
+  await page.goto('https://demoqa.com/');
+
+  // Navigate to "Interactions" and then "Droppable"
+  await page.click('text=Interactions');
+  await page.click('text=Droppable');
+
+  // Locate the draggable and droppable elements
+  const dragMeBox = await page.locator('div#draggable');
+  const dropHereArea = await page.locator('div#droppable').first();
+
+  // Get the initial text of the "Drop Here" area
+  const initialDropHereText = await dropHereArea.textContent();
+
+  // Drag the "Drag me" box and drop it onto the "Drop Here" area
+  await dragMeBox.dragTo(dropHereArea);
+
+  // Get the updated text of the "Drop Here" area
+  const updatedDropHereText = await dropHereArea.textContent();
+
+  // Assertions
+  expect(initialDropHereText).toBe('Drop here');
+  expect(updatedDropHereText).toBe('Dropped!');
+
+
+});
+
+
