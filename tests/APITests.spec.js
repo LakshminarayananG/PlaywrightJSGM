@@ -12,7 +12,7 @@ const requestBody = {
 let userIdvalue;
 let userToken;
 
-test.describe('Add a simple invoice test', () => {
+test.describe('Users & Books API', () => {
     test.describe.configure({ mode: 'serial' });
 
 
