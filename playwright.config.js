@@ -44,7 +44,7 @@ module.exports = defineConfig({
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'],
-    headless:false },
+    headless:true },
     }
 
     /* Test against mobile viewports. */
