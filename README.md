@@ -49,3 +49,6 @@ To generate a report, simply execute the following command:
 ```
 npx playwright show-report
 ```
+
+# Github Actions
+This project is also configured with github actions workflow which will trigger a build and run the tests everytime a code is pushed to the master / main branch.
