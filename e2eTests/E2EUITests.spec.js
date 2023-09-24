@@ -1,9 +1,30 @@
 const { test, expect } = require('@playwright/test');
+const { chromium } = require('playwright');
 const { POBase } = require('../pageobjects/POBase');
 const testData = JSON.parse(JSON.stringify(require('../testdata/inputdata.json')));
 const appURL = "https://demoqa.com/";
 
-test('@Web TC01- Scenario A - Verify user can enter new data into the table', async ({ page }) => {
+let browser;
+let page;
+
+test.beforeAll('Browser setup', async()=>{
+  browser = await chromium.launch();
+});
+
+test.afterAll('Browser tearDown', async()=>{
+  await browser.close();
+});
+
+test.beforeEach('New Page creation before each test', async( )=>{
+  page = await browser.newPage();
+  await page.goto(appURL);
+});
+
+test.afterEach('Close created Page after each test', async( )=>{
+  await page.close();
+});
+
+test('@Web TC01- Scenario A - Verify user can enter new data into the table', async ({  }) => {
 
     const poBase = new POBase(page);
     const elementsPage = poBase.getElementsPage();
@@ -41,7 +62,7 @@ test('@Web TC01- Scenario A - Verify user can enter new data into the table', as
 
 });
 
-test('@Web TC01- Scenario B - Verify user can edit the row in a table', async ({ page }) => {
+test('@Web TC01- Scenario B - Verify user can edit the row in a table', async ({  }) => {
 
     const poBase = new POBase(page);
     const elementsPage = poBase.getElementsPage();
@@ -61,7 +82,7 @@ test('@Web TC01- Scenario B - Verify user can edit the row in a table', async ({
    
   });
 
-test(' @Web Verify broken image', async ({ page }) => {
+test(' @Web Verify broken image', async ({  }) => {
 
     const poBase = new POBase(page);
     const elementsPage = poBase.getElementsPage();
@@ -82,7 +103,7 @@ test(' @Web Verify broken image', async ({ page }) => {
   });
 
 
-test('@Web TC03 - Verify user can submit the form.', async ({ page }) => {
+test('@Web TC03 - Verify user can submit the form.', async ({  }) => {
 
     const poBase = new POBase(page);
     const formsPage = poBase.getFormsPage();
@@ -120,7 +141,7 @@ test('@Web TC03 - Verify user can submit the form.', async ({ page }) => {
   
   });
 
-test('@Web Verify the progress bar', async ({ page }) => {
+test('@Web Verify the progress bar', async ({  }) => {
     const poBase = new POBase(page);
     const widgetPage = poBase.getWidgetPage();
     const progressBarPage = poBase.getProgressBarPage();
@@ -140,7 +161,7 @@ test('@Web Verify the progress bar', async ({ page }) => {
   
   });
 
-test('@Web Verify the ToolTip', async ({ page }) => {
+test('@Web Verify the ToolTip', async ({  }) => {
     const poBase = new POBase(page);
     const widgetPage = poBase.getWidgetPage();
     const toolTipPage = poBase.getToolTipPage();
@@ -161,7 +182,7 @@ test('@Web Verify the ToolTip', async ({ page }) => {
 
   });
 
-test('@Web Verify the Drag & Drop Functionality', async ({ page }) => {
+test('@Web Verify the Drag & Drop Functionality', async ({  }) => {
     const poBase = new POBase(page);
     const interactionsPage = poBase.getInteractionsPage();
     const beforeDropTextMessage = testData.ValidationMessages[0].beforeDropText;

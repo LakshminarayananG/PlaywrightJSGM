@@ -20,7 +20,8 @@
             "salary": 12345,
             "department": "QA",
             "updated_fname": "Gerimedica",
-            "updated_lname": "BV"
+            "updated_lname": "BV",
+            "isbnValue": "9781449325862"
         }
     ],
 

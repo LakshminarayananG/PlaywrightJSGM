@@ -1,17 +1,13 @@
 const { test, expect, request } = require('@playwright/test');
 const { faker } = require('@faker-js/faker');
 const { APiUtils } = require('../utils/ApiUtils');
-const exp = require('constants');
+const testData = JSON.parse(JSON.stringify(require('../testdata/inputdata.json')));
 
 
 
 const APIEndpoint = "https://demoqa.com";
 const fakerName = faker.internet.userName();
-const requestBody = {
-    userName: fakerName,
-    password: 'Testuser@1234',
-};
-const isbn_value = "9781449325862";
+const isbn_value = testData.APIDetails[0].isbnValue;
 let userIdvalue;
 let userToken;
 let userName;
@@ -21,6 +17,10 @@ test.describe('Users & Books API', () => {
 test('@API Create an user', async ({ }) => {
     const apiContext = await request.newContext();
     const apiUtils = new APiUtils(apiContext);
+    const requestBody = {
+        userName: fakerName,
+        password: 'Testuser@1234',
+    };
         const requestOptions = {
             method: 'POST',
             headers: {
@@ -28,7 +28,7 @@ test('@API Create an user', async ({ }) => {
             },
             data: JSON.stringify(requestBody)
         };
-        const user_creation_response = await apiUtils.sendAPIRequestAndReturnResponse(APIEndpoint.concat('/Account/v1/user'), requestOptions);
+        const user_creation_response = await apiUtils.sendAPIRequestAndReturnResponse(APIEndpoint.concat('/Account/v1/user'), requestOptions,'POST');
 
         //Assert Status Code & Assign userID Value
         expect(user_creation_response.status).toBe(201);
@@ -56,7 +56,7 @@ test('@API Add list of books for the created user', async({ }) => {
             data: JSON.stringify(token_request_body)
         };
 
-        const token_creation_response = await apiUtils.sendAPIRequestAndReturnResponse(APIEndpoint.concat('/Account/v1/GenerateToken'), requestOptions); 
+        const token_creation_response = await apiUtils.sendAPIRequestAndReturnResponse(APIEndpoint.concat('/Account/v1/GenerateToken'), requestOptions,'POST'); 
 
         //Assertions and assign token value
         expect(token_creation_response.status).toBe(200);
@@ -83,7 +83,7 @@ test('@API Add list of books for the created user', async({ }) => {
             data: JSON.stringify(book_request)
         };
 
-        const book_addition_response = await apiUtils.sendAPIRequestAndReturnResponse(APIEndpoint.concat('/BookStore/v1/Books'),requestOptions_book_addition);
+        const book_addition_response = await apiUtils.sendAPIRequestAndReturnResponse(APIEndpoint.concat('/BookStore/v1/Books'),requestOptions_book_addition,'POST');
 
         console.log(book_addition_response);
 
@@ -113,7 +113,7 @@ test('@API Remove Added Books', async ({ }) => {
     };
 
 
-    const delete_response = await apiUtils.sendAPIRequestAndReturnResponseDelete(APIEndpoint.concat('/BookStore/v1/Book'), delete_requestOptions); 
+    const delete_response = await apiUtils.sendAPIRequestAndReturnResponse(APIEndpoint.concat('/BookStore/v1/Book'), delete_requestOptions,'DELETE'); 
     //Validate if the deletion is successful
     expect(delete_response.status).toBe(204);
     expect(delete_response.body).toEqual("No Content");

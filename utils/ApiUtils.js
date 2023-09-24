@@ -4,21 +4,16 @@ class APiUtils{
         this.apiContext=apiContext;
     }
 
-    async sendAPIRequestAndReturnResponse(url,options){
+    async sendAPIRequestAndReturnResponse(url,options,requestType){
         const response = await this.apiContext.fetch(url, options);
-        return {
+        
+        return requestType!='DELETE' ? {
           status: response.status(),
           body: await response.json(),
+        } : {
+          status: response.status(),
+          body: await response.statusText(),
         };
-
-}
-
-async sendAPIRequestAndReturnResponseDelete(url,options){
-    const response = await this.apiContext.fetch(url, options);
-    return {
-      status: response.status(),
-      body: await response.statusText(),
-    };
 
 }
 
