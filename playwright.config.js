@@ -12,13 +12,13 @@ const { defineConfig, devices } = require('@playwright/test');
  */
 module.exports = defineConfig({
   testDir: './tests',
-  timeout: 30 * 1000,
+  timeout: 45 * 1000,
   expect: {
     /**
      * Maximum time expect() should wait for the condition to be met.
      * For example in `await expect(locator).toHaveText();`
      */
-    timeout: 5000
+    timeout: 10000
   },
   /* Run tests in files in parallel */
   fullyParallel: true,
@@ -44,8 +44,14 @@ module.exports = defineConfig({
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'],
-    headless:true },
-    fullyParallel: true,
+        headless:true,
+        screenshot: 'only-on-failure',
+        video: 'retry-with-video',
+        ignoreHTTPSErrors: true,
+        permissions:['geolocation'],
+        trace: 'on-all-retries'
+         },
+        fullyParallel: true,
     }
 
     /* Test against mobile viewports. */

@@ -1,0 +1,48 @@
+{
+    "UserDetails": [
+        {
+            "firstName": "Alden",
+            "lastName": "Cantrell",
+            "age": 30,
+            "userEmail": "test@test.com",
+            "salary": 12345,
+            "department": "QA",
+            "updated_fname": "Gerimedica",
+            "updated_lname": "BV"
+        }
+    ],
+    "APIDetails": [
+        {
+            "firstName": "Lakshminarayanan",
+            "lastName": "Ganesan",
+            "age": 30,
+            "userEmail": "test@test.com",
+            "salary": 12345,
+            "department": "QA",
+            "updated_fname": "Gerimedica",
+            "updated_lname": "BV"
+        }
+    ],
+
+    "FormDetails" :[
+        {
+            "firstName" : "Gerimedica",
+            "lastName" : "BV",
+            "userEmail" : "test@test.com",
+            "userNumber" : "0123456789",
+            "dateOfBirth" : "1990-01-15",
+            "imageName" : "GM.jpg",
+            "currentAddress" : "Netherlands",
+            "confirmationMessage" : "Thanks for submitting the form"
+        }
+    ],
+
+    "ValidationMessages" : [
+        {
+            "LinkHoverText" : "You hovered over the Button",
+            "progressBarFinish" : "Reset",
+            "beforeDropText" : "Drop here",
+            "afterDropText" : "Dropped!"
+        }
+    ]
+}
