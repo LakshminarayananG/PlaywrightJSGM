@@ -1,6 +1,5 @@
 const { test, expect, request } = require('@playwright/test');
 const { faker } = require('@faker-js/faker');
-const exp = require('constants');
 
 
 //create User
@@ -9,15 +8,15 @@ const requestBody = {
     userName: fakerName,
     password: 'Testuser@1234',
 };
+const isbn_value = "9781449325862";
 let userIdvalue;
 let userToken;
+
 
 test.describe('Users & Books API', () => {
     test.describe.configure({ mode: 'serial' });
 
-
-
-    test.beforeAll(async () => {
+test.beforeAll(async () => {
         // Send a POST request
         const req = await request.newContext();
         const response = await req.post('https://demoqa.com/Account/v1/user', {
@@ -62,7 +61,7 @@ test.describe('Users & Books API', () => {
             userId: userIdvalue,
             collectionOfIsbns: [
                 {
-                    isbn: "9781449325862"
+                    isbn: isbn_value
                 }
             ]
         }
@@ -99,13 +98,15 @@ test.describe('Users & Books API', () => {
             });
         //Vali88819a4f-4569-43c5-9db9-3ac9817acaefdate if the request is successful
         expect(await delete_book_response.status(204));
-
         expect(await delete_book_response.statusText()).toEqual("No Content");
 
 
 
 
     });
+
+
+
 
 
 });
