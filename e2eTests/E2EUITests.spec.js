@@ -6,9 +6,12 @@ const appURL = "https://demoqa.com/";
 
 let browser;
 let page;
+let poBase;
 
 test.beforeAll('Browser setup', async()=>{
   browser = await chromium.launch();
+  
+  
 });
 
 test.afterAll('Browser tearDown', async()=>{
@@ -18,6 +21,8 @@ test.afterAll('Browser tearDown', async()=>{
 test.beforeEach('New Page creation before each test', async( )=>{
   page = await browser.newPage();
   await page.goto(appURL);
+  poBase = new POBase(page);
+  
 });
 
 test.afterEach('Close created Page after each test', async( )=>{
@@ -25,10 +30,9 @@ test.afterEach('Close created Page after each test', async( )=>{
 });
 
 test('@Web TC01- Scenario A - Verify user can enter new data into the table', async ({  }) => {
-
-    const poBase = new POBase(page);
-    const elementsPage = poBase.getElementsPage();
-    const webTablesPage = poBase.getWebTablesPage();
+    //Object declaration along with the required test data inputs
+  const elementsPage = poBase.getElementsPage();
+  const webTablesPage = poBase.getWebTablesPage();
     const first_name = testData.UserDetails[0].firstName;
     const last_name = testData.UserDetails[0].lastName;
     const age = testData.UserDetails[0].age;
@@ -63,8 +67,7 @@ test('@Web TC01- Scenario A - Verify user can enter new data into the table', as
 });
 
 test('@Web TC01- Scenario B - Verify user can edit the row in a table', async ({  }) => {
-
-    const poBase = new POBase(page);
+  //Object declaration along with the required test data inputs
     const elementsPage = poBase.getElementsPage();
     const webTablesPage = poBase.getWebTablesPage();
     const nameToChange = "Alden";
@@ -83,8 +86,7 @@ test('@Web TC01- Scenario B - Verify user can edit the row in a table', async ({
   });
 
 test(' @Web Verify broken image', async ({  }) => {
-
-    const poBase = new POBase(page);
+  //Object declaration along with the required test data inputs
     const elementsPage = poBase.getElementsPage();
     const brokenLinksPage = poBase.getBrokenLinksPage();
 
@@ -105,7 +107,7 @@ test(' @Web Verify broken image', async ({  }) => {
 
 test('@Web TC03 - Verify user can submit the form.', async ({  }) => {
 
-    const poBase = new POBase(page);
+  //Object declaration along with the required test data inputs
     const formsPage = poBase.getFormsPage();
     const practiceFormsPage = poBase.getPracticeFormsPage();
     const firstName = testData.FormDetails[0].firstName;
@@ -142,7 +144,8 @@ test('@Web TC03 - Verify user can submit the form.', async ({  }) => {
   });
 
 test('@Web Verify the progress bar', async ({  }) => {
-    const poBase = new POBase(page);
+
+  //Object declaration along with the required test data inputs
     const widgetPage = poBase.getWidgetPage();
     const progressBarPage = poBase.getProgressBarPage();
     const validationMessage = testData.ValidationMessages[0].progressBarFinish;
@@ -162,7 +165,8 @@ test('@Web Verify the progress bar', async ({  }) => {
   });
 
 test('@Web Verify the ToolTip', async ({  }) => {
-    const poBase = new POBase(page);
+
+  //Object declaration along with the required test data inputs
     const widgetPage = poBase.getWidgetPage();
     const toolTipPage = poBase.getToolTipPage();
     const validationMessage = testData.ValidationMessages[0].LinkHoverText;
@@ -183,7 +187,8 @@ test('@Web Verify the ToolTip', async ({  }) => {
   });
 
 test('@Web Verify the Drag & Drop Functionality', async ({  }) => {
-    const poBase = new POBase(page);
+   
+  //Object declaration along with the required test data inputs
     const interactionsPage = poBase.getInteractionsPage();
     const beforeDropTextMessage = testData.ValidationMessages[0].beforeDropText;
     const afterDropTextMessage = testData.ValidationMessages[0].afterDropText;

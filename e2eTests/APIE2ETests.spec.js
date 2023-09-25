@@ -11,11 +11,13 @@ const isbn_value = testData.APIDetails[0].isbnValue;
 let userIdvalue;
 let userToken;
 let userName;
-
+let apiContext;
 test.describe('Users & Books API', () => {
     test.describe.configure({ mode: 'serial' });
+test.beforeAll('Initialising the API context before all the tests', async({}) =>{
+    apiContext = await request.newContext();
+});
 test('@API Create an user', async ({ }) => {
-    const apiContext = await request.newContext();
     const apiUtils = new APiUtils(apiContext);
     const requestBody = {
         userName: fakerName,
@@ -40,7 +42,6 @@ test('@API Create an user', async ({ }) => {
     });
 
 test('@API Add list of books for the created user', async({ }) => {
-    const apiContext = await request.newContext();
     const apiUtils = new APiUtils(apiContext);
 
     const token_request_body = {
@@ -95,7 +96,6 @@ test('@API Add list of books for the created user', async({ }) => {
 
 
 test('@API Remove Added Books', async ({ }) => {
-    const apiContext = await request.newContext();
     const apiUtils = new APiUtils(apiContext);
 
     const delete_book_request = {
